@@ -1,0 +1,19 @@
+{
+  "name": "SerialBridge",
+  "keywords": "serial bridge, uart tcp bridge",
+  "description": "ESP8266 Arduino library to bridge TCP connections to a uart",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeelabs/esp-link-v4.git"
+  },
+  "authors": [
+    { "name": "Thorsten von Eicken" }
+  ],
+  "dependencies": {
+    "name": "ESPAsyncTCP",
+    "frameworks": "arduino"
+  },
+  "version": "0.1.0",
+  "frameworks": "arduino",
+  "platforms": "espressif8266"
+}
