@@ -1,0 +1,15 @@
+{
+  "name": "AVRFlash",
+  "keywords": "avr isp, avr flashing, avr programming",
+  "description": "ESP8266 Arduino library to flash-program an AVR via the serial port",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeelabs/esp-link-v4.git"
+  },
+  "authors": [
+    { "name": "Thorsten von Eicken" }
+  ],
+  "version": "0.1.0",
+  "frameworks": "arduino",
+  "platforms": "espressif8266"
+}

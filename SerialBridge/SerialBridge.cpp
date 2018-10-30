@@ -63,6 +63,15 @@ void SbrClient::handleError(int8_t error) {
 void SbrClient::handleData(void *data, size_t len) {
         DBG(PSTR("[SERIAL_BRIDGE] rcv client %s: %d bytes\n"),
                 client->remoteIP().toString().c_str(), len);
+        // if the serial bridge is disabled we drop evertyhing on the floor
+        if (sbr->_disabled) {
+            if (rxBufSize > 0) {
+                if (client) client->ack(rxBufSize);
+                free(rxBuf);
+                rxBuf = 0;
+            }
+            return;
+        }
         size_t writable = SERIAL_BRIDGE_PORT.availableForWrite();
         TRC(PSTR("rx<%d/%d/%d>"), len, rxBuf ? rxBufSize - rxBufNext : 0, writable);
         // if we have buffered chars take this opportunity to stuff some into the uart
@@ -171,6 +180,7 @@ void SerialBridge::handleNewClient(AsyncClient* client) {
 // connected clients. It only pulls out of the uart receive buffer what it can send to all clients.
 // The assumption here is that the interrupt handler's buffer is sufficient.
 void SerialBridge::recvUartCheck() {
+    if (_disabled) return;
     // check that we have connected clients and there's something to send
     if (SERIAL_BRIDGE_PORT.peek() < 0) {
         SERIAL_BRIDGE_PORT.hasOverrun(); // clear flag in uart driver

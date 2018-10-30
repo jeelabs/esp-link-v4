@@ -35,15 +35,19 @@
 struct SbrClient;
 
 struct SerialBridge {
-    SerialBridge() : _overrun(false) {}
+    SerialBridge() : _overrun(false), _disabled(false), _debug(0) {}
 
     // begin operation of the serial bridge, the default rxBufSz provides 173ms of buffering at
     // 115200 baud
     void begin(uint16_t port=2323, uint32_t baudrate=115200, uint32_t rxBufSz=2000);
     // loop must be called from the arduino loop function to perform background tasks
     void loop();
-    //
+    // debug printf function used for info/debug messages
     void debug(void dbgPrintf(const char*, ...));
+    // disable turns the serial bridge off temporarily, e.g. to use the uart for something else
+    void disable() { _disabled = true; }
+    // enable re-enables after a disable
+    void enable() { _disabled = false; }
 
     // private
 
@@ -54,6 +58,8 @@ struct SerialBridge {
 
     std::vector<SbrClient*> _clients; // a list to hold all clients
     bool _overrun; // state used to only warn once per overrun event
+    bool _disabled;
+    void (*_debug)(const char*, ...);
 };
 
 #endif // SerialBridge_h
