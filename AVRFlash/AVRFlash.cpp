@@ -195,7 +195,7 @@ void AVRFlash::timerCB() {
         fetchUart();
         processAcks();
         if (!_ackWait) {
-            DBG("Programmed page\n", 0);
+            //DBG("Programmed page\n", 0);
             _progState = stateIdle;
             _stateStart = millis();
             _uart.write(STK_GET_SYNC);

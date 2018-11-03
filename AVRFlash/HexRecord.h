@@ -60,9 +60,9 @@ struct HexRecord {
     }
 
     // hasError returns true if an error occurred
-    bool hasError();
+    bool hasError() { return _errMessage[0] != 0; }
     // getError() returns an error description as a string (or null if no error)
-    char *getError();
+    char *getError() { return _errMessage; }
 
     // private
 

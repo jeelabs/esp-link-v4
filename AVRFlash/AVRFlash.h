@@ -42,6 +42,10 @@ struct AVRFlash : HexRecord {
         _responseBuf[0] = 0;
     }
 
+    ~AVRFlash() {
+        _timer.detach();
+    }
+
     // sync initiates the flashing operation by starting the AVR reset and sync operations.
     // The AVR will then be kept in sync for some time expecting the data to arrive.
     void sync();
@@ -57,6 +61,12 @@ struct AVRFlash : HexRecord {
 
         _doneCB = (void(*)(void*))doneCB;
         _doneCBArg = (void *)cbArg;
+    }
+
+    void abort() {
+        _doneCB = 0; // just in case
+        _timer.detach();
+        resetAVR(); // avoid leaving it in some weird state
     }
 
     // private

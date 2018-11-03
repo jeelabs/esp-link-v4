@@ -6,11 +6,6 @@
 
 #define DBG(fmt, ...) _debug(PSTR(fmt), __VA_ARGS__)
 
-// hasError returns true if an error occurred
-bool HexRecord::hasError() { return _errMessage[0] != 0; }
-// getError() returns an error description as a string (or null if no error)
-char *HexRecord::getError() { return hasError() ? _errMessage : 0; }
-
 // verify that N chars are hex characters
 bool HexRecord::checkHex(uint8_t *buf, short len) {
   while (len--) {
@@ -134,7 +129,7 @@ uint32_t HexRecord::_write(uint8_t *data, size_t len) {
 
 // addPage appends a page to the list of pages to be programmed
 void HexRecord::addPage() {
-    DBG("HexRecord::addPage(@0x%x, %d bytes)\n", _address, _pageLen);
+    //DBG("HexRecord::addPage(@0x%x, %d bytes)\n", _address, _pageLen);
     FlashPage *fp = (FlashPage*)calloc(1, 3*4+_pageLen);
     if (fp == 0) {
         strcpy(_errMessage, "out of memory");
